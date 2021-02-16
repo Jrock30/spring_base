@@ -6,7 +6,10 @@ import hello.core.discount.RateDiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
 import hello.core.member.MemoryMemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class OrderServiceImpl implements OrderService {
 
 //    private final MemberRepository memberRepository = new MemoryMemberRepository();
@@ -22,6 +25,7 @@ public class OrderServiceImpl implements OrderService {
     // AppConfig
     // 생성자를 통해 주입 받고 인터페이스만 의존 DIP 해결
     // 관심사 분리 ( 객체를 생성하고 연결하는 역할과 실행하는 역할이 명확히 분리 ) OCP 해결
+    @Autowired
     public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;
@@ -37,5 +41,10 @@ public class OrderServiceImpl implements OrderService {
         int discountPrice = discountPolicy.discount(member, itemPrice);
 
         return new Order(memberId, itemName, itemPrice, discountPrice);
+    }
+
+    // TEST
+    public MemberRepository getMemberRepository() {
+        return memberRepository;
     }
 }
