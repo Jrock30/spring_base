@@ -6,14 +6,16 @@ import hello.core.discount.RateDiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
 import hello.core.member.MemoryMemberRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 // 스피링 빈이 아닌 일단 클래스에서 @Autowired 코드를 적용해도 아무 기능도 동작하지 않는다.
 // @Component, @Configuration, @Service, @Controller ..
 @Component
+// final이 붙은 필드에 생성자를 붙여준다
+@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
 //    private final MemberRepository memberRepository = new MemoryMemberRepository();
@@ -75,11 +77,11 @@ public class OrderServiceImpl implements OrderService {
      * final -> 바뀌면 안되기 때문에(불변) 넣으면 좋은데 생성자만 final을 사용할 수 있다.
      * 생성자 주입을 선택해라. 가끔 옵션이 필요하 수정자 수입을 선택해라. 필드 주입은 사용하지 않는게 좋다.
      */
-    @Autowired
-    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
-        this.memberRepository = memberRepository;
-        this.discountPolicy = discountPolicy;
-    }
+//    @Autowired
+//    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+//        this.memberRepository = memberRepository;
+//        this.discountPolicy = discountPolicy;
+//    }
 
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {
