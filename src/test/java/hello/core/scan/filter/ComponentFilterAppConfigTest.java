@@ -34,7 +34,7 @@ public class ComponentFilterAppConfigTest {
                    excludeFilters = {
                         @Filter(type = FilterType.ANNOTATION, classes = MyExcludeComponent.class),
                        // BeanA 도 빼고 싶으면,
-                        @Filter(type = FilterType.ASSIGNABLE_TYPE, classes = BeanA.class)
+//                        @Filter(type = FilterType.ASSIGNABLE_TYPE, classes = BeanA.class)
                    })
 
     static class ComponentFilterAppConfig {
