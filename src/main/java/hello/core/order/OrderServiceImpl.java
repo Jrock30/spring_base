@@ -8,6 +8,7 @@ import hello.core.member.MemberRepository;
 import hello.core.member.MemoryMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Component;
 // @Component, @Configuration, @Service, @Controller ..
 @Component
 // final이 붙은 필드에 생성자를 붙여준다
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
 //    private final MemberRepository memberRepository = new MemoryMemberRepository();
@@ -76,11 +77,35 @@ public class OrderServiceImpl implements OrderService {
      * 누군가 실수로 변경할 수 도 있고, 변경하면 안되는 메서드를 열어두는 것은 좋은 설계 방법이 아니다. 생성자 주입은 객체를 생성할 때 딱 1번만 호출되므로 이후에 호출되는 일이 없다. 따라서 불변하게 설계할 수 있다.
      * final -> 바뀌면 안되기 때문에(불변) 넣으면 좋은데 생성자만 final을 사용할 수 있다.
      * 생성자 주입을 선택해라. 가끔 옵션이 필요하 수정자 수입을 선택해라. 필드 주입은 사용하지 않는게 좋다.
+     *
+     * @Qualifier("mainDiscountPolicy") 를 사용하면 중복 빈이 있어도  네임을 정의하여 사용할 수 있다.
+     * @Component 에도 @Qualifier 이름을 등록해주면 된다, @Bean 밑에도 사용할 수 있다.
+     *
+     * @Primary 기본으로 가져옴
+     * @Qualifier("fixDiscountPolicy") Primary가 있어도 Qualifier 붙이면 이 것을 가져옴
+     * *** 단 Qualifier는 모든 코드에 붙여 주어야하므로 Primary로 통일하고 Primary 위치를 바꾸는 게 나을 것 같다.
      */
+    @Autowired
+    public OrderServiceImpl(MemberRepository memberRepository, @Qualifier("fixDiscountPolicy") DiscountPolicy discountPolicy) {
+        this.memberRepository = memberRepository;
+        this.discountPolicy = discountPolicy;
+    }
 //    @Autowired
 //    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
 //        this.memberRepository = memberRepository;
 //        this.discountPolicy = discountPolicy;
+//    }
+
+    /**
+     * @Autowired
+     * DiscountPolicy discountPolicy -> DiscountPolicy rateDiscountPolicy
+     * 조회 빈이 2개 이상일 경우 위처럼 주입 받는 인스턴스(빈) 명을 변경해주면 된다.
+     *
+     */
+//    @Autowired
+//    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy rateDiscountPolicy) {
+//        this.memberRepository = memberRepository;
+//        this.discountPolicy = rateDiscountPolicy;
 //    }
 
     @Override

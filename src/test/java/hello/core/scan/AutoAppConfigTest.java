@@ -19,5 +19,6 @@ public class AutoAppConfigTest {
 
         OrderServiceImpl bean = ac.getBean(OrderServiceImpl.class);
         System.out.println("bean = " + bean);
+//        System.out.println(bean.ge);
     }
 }
