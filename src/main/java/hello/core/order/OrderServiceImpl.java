@@ -1,5 +1,6 @@
 package hello.core.order;
 
+import hello.core.MainDiscountPolicy;
 import hello.core.discount.DiscountPolicy;
 import hello.core.discount.FixDiscountPolicy;
 import hello.core.discount.RateDiscountPolicy;
@@ -84,12 +85,20 @@ public class OrderServiceImpl implements OrderService {
      * @Primary 기본으로 가져옴
      * @Qualifier("fixDiscountPolicy") Primary가 있어도 Qualifier 붙이면 이 것을 가져옴
      * *** 단 Qualifier는 모든 코드에 붙여 주어야하므로 Primary로 통일하고 Primary 위치를 바꾸는 게 나을 것 같다.
+     * @Qualifier("fixDiscountPolicy") 의 fixDiscountPolicy 는 문자열이다. 컴파일에서 걸러주지 않는다(컴파일에 걸리는 에러가 좋음)
      */
+//    @Autowired
+//    public OrderServiceImpl(MemberRepository memberRepository, @Qualifier("fixDiscountPolicy") DiscountPolicy discountPolicy) {
+//        this.memberRepository = memberRepository;
+//        this.discountPolicy = discountPolicy;
+//    }
+
     @Autowired
-    public OrderServiceImpl(MemberRepository memberRepository, @Qualifier("fixDiscountPolicy") DiscountPolicy discountPolicy) {
+    public OrderServiceImpl(MemberRepository memberRepository, @MainDiscountPolicy DiscountPolicy discountPolicy) {
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;
     }
+
 //    @Autowired
 //    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
 //        this.memberRepository = memberRepository;
