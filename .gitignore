@@ -16,3 +16,5 @@ gradle/
 *.iws
 *.iml
 *.ipr
+
+build/
